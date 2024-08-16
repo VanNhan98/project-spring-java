@@ -3,6 +3,7 @@ package vn.smartapple.appleshop.controller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import vn.smartapple.appleshop.domain.Role;
 import vn.smartapple.appleshop.domain.User;
+import vn.smartapple.appleshop.service.RoleService;
 import vn.smartapple.appleshop.service.UpLoadFileService;
 import vn.smartapple.appleshop.service.UserService;
 
@@ -23,6 +26,10 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UpLoadFileService uploadFileService;
+    // @Autowired
+    // private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleService roleService;
 
     @GetMapping("/admin/user")
     public String getUserPage(Model model) {
@@ -48,8 +55,14 @@ public class UserController {
     @PostMapping("/admin/user/create")
     public String createUserPage(Model model, @RequestParam("nameFile") MultipartFile file,
             @ModelAttribute("newUser") User user) {
-        // this.userService.handelUser(user);
-        this.uploadFileService.handleSaveUploadFile(file, "avatar");
+
+        String avatar = this.uploadFileService.handleSaveUploadFile(file, "avatar");
+        // String hashPassWord = this.passwordEncoder.encode(user.getPassword());
+
+        user.setAvatar(avatar);
+        // user.setPassword(hashPassWord);
+        user.setRole(this.roleService.getRoleByName(user.getRole().getName()));
+        this.userService.handelUser(user);
         return "redirect:/admin/user";
     }
 
