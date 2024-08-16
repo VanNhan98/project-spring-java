@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import vn.smartapple.appleshop.domain.User;
+import vn.smartapple.appleshop.service.UpLoadFileService;
 import vn.smartapple.appleshop.service.UserService;
 
 @Controller
@@ -19,15 +21,17 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UpLoadFileService uploadFileService;
 
-    @RequestMapping("/admin/user")
+    @GetMapping("/admin/user")
     public String getUserPage(Model model) {
         List<User> users = this.userService.getAllUsers();
         model.addAttribute("users", users);
         return "admin/user/show";
     }
 
-    @RequestMapping("/admin/user/{id}")
+    @GetMapping("/admin/user/{id}")
     public String getUserDetailPage(Model model, @PathVariable long id) {
         User user = this.userService.getUserById(id);
         model.addAttribute("user", user);
@@ -35,19 +39,21 @@ public class UserController {
     }
 
     // url form user
-    @RequestMapping("/admin/user/create")
+    @GetMapping("/admin/user/create")
     public String getCreatePage(Model model) {
         model.addAttribute("newUser", new User());
         return "admin/user/create";
     }
 
     @PostMapping("/admin/user/create")
-    public String createUserPage(Model model, @ModelAttribute("newUser") User user) {
-        this.userService.handelUser(user);
+    public String createUserPage(Model model, @RequestParam("nameFile") MultipartFile file,
+            @ModelAttribute("newUser") User user) {
+        // this.userService.handelUser(user);
+        this.uploadFileService.handleSaveUploadFile(file, "avatar");
         return "redirect:/admin/user";
     }
 
-    @RequestMapping("/admin/user/update/{id}")
+    @GetMapping("/admin/user/update/{id}")
     public String getUpdateUserPage(Model model, @PathVariable long id) {
         User currentUser = this.userService.getUserById(id);
         model.addAttribute("newUser", currentUser);
