@@ -1,4 +1,4 @@
-package vn.smartapple.appleshop.controller;
+package vn.smartapple.appleshop.controller.admin;
 
 import java.util.List;
 
@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import vn.smartapple.appleshop.domain.User;
 import vn.smartapple.appleshop.service.UserService;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class UserController {

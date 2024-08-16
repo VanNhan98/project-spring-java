@@ -21,22 +21,17 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "orders")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    String email;
-    String password;
-    String fullName;
-    String phone;
-    String address;
-    String avatar;
+    double totalPrice;
 
     @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @OneToMany(mappedBy = "user")
-    List<Order> orders;
+    @OneToMany(mappedBy = "order")
+    List<OrderDetail> orderDetails;
 }
