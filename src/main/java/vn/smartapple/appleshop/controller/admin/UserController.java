@@ -3,7 +3,6 @@ package vn.smartapple.appleshop.controller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import vn.smartapple.appleshop.domain.Role;
 import vn.smartapple.appleshop.domain.User;
 import vn.smartapple.appleshop.service.RoleService;
 import vn.smartapple.appleshop.service.UpLoadFileService;

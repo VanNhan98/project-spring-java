@@ -29,5 +29,5 @@ public class Product {
     long quantity;
     long sold;
     String factory;
-    String target;
+    String size;
 }
