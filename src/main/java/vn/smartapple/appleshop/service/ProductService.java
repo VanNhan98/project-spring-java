@@ -1,6 +1,7 @@
 package vn.smartapple.appleshop.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public Product getUserById(long id) {
+    public Optional<Product> getProductById(long id) {
         return this.productRepository.findById(id);
     }
 

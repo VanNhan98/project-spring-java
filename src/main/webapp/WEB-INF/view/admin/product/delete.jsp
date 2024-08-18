@@ -37,7 +37,7 @@
                                     <div class="alert alert-danger" role="alert">
                                         Are you sure to delete this product ?
                                     </div>
-                                    <form:form method="post" action="/admin/user/delete" modelAttribute="newProduct">
+                                    <form:form method="post" action="/admin/product/delete" modelAttribute="newProduct">
                                         <div class="mb-3" style="display: none;">
                                             <label class="form-label">ID:</label>
                                             <form:input value="${id}" type="text" class="form-control" path="id" />

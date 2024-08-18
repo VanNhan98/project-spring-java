@@ -1,6 +1,7 @@
 package vn.smartapple.appleshop.controller.admin;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,29 +64,48 @@ public class ProductController {
 
     @GetMapping("/admin/product/{id}")
     public String getDetailProductPage(Model model, @PathVariable long id) {
-        Product product = this.productService.getUserById(id);
+        Product product = this.productService.getProductById(id).get();
         model.addAttribute("product", product);
         return "admin/product/detail";
     }
 
     @GetMapping("/admin/product/update/{id}")
     public String getUpdateProductPage(Model model, @PathVariable long id) {
-        Product product = this.productService.getUserById(id);
+        Product product = this.productService.getProductById(id).get();
         model.addAttribute("newProduct", product);
         return "admin/product/update";
     }
 
     @PostMapping("/admin/product/update")
-    public String postMethodName(Model model, @ModelAttribute("newProduct") Product product) {
-        Product productCurrent = this.productService.getUserById(product.getId());
-        productCurrent.setName(product.getName());
-        productCurrent.setPrice(product.getPrice());
-        productCurrent.setDetailDesc(product.getDetailDesc());
-        productCurrent.setShortDesc(product.getShortDesc());
-        productCurrent.setQuantity(product.getQuantity());
-        productCurrent.setSize(product.getSize());
-        productCurrent.setImage(product.getImage());
-        this.productService.saveProduct(productCurrent);
+    public String postMethodName(Model model, @ModelAttribute("newProduct") @Valid Product product,
+            BindingResult bindingResult, @RequestParam("nameFile") MultipartFile file) {
+        // validate
+        List<FieldError> errors = bindingResult.getFieldErrors();
+        for (FieldError error : errors) {
+            System.out.println(error.getField() + " - " + error.getDefaultMessage());
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "admin/product/update";
+        }
+
+        Product productCurrent = this.productService.getProductById(product.getId()).get();
+        if (productCurrent != null) {
+            if (!file.isEmpty()) {
+                productCurrent.setImage(product.getImage());
+                String img = this.upLoadFileService.handleSaveUploadFile(file, "product");
+                productCurrent.setImage(img);
+            }
+            productCurrent.setName(product.getName());
+            productCurrent.setPrice(product.getPrice());
+            productCurrent.setDetailDesc(product.getDetailDesc());
+            productCurrent.setShortDesc(product.getShortDesc());
+            productCurrent.setQuantity(product.getQuantity());
+            productCurrent.setSize(product.getSize());
+
+            this.productService.saveProduct(productCurrent);
+        }
+
         return "redirect:/admin/product";
     }
 
@@ -96,10 +116,10 @@ public class ProductController {
         return "admin/product/delete";
     }
 
-    @PostMapping("/admin/usproducter/delete")
-    public String postDeleteUser(Model model, @ModelAttribute("newUser") Product product) {
+    @PostMapping("/admin/product/delete")
+    public String postDeleteUser(Model model, @ModelAttribute("newProduct") Product product) {
         this.productService.deleteUserById(product.getId());
-        return "redirect:/admin/user";
+        return "redirect:/admin/product";
     }
 
 }
