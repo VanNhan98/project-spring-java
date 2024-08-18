@@ -36,7 +36,7 @@
                                             <a href="/admin/product/create" class="btn btn-primary">Create Product</a>
                                         </div>
 
-                                        <table class="table table-bordered table-hover mt-5"
+                                        <table class="table table-bordered table-hover mt-5 text-center"
                                             style="align-items: center;">
                                             <thead>
                                                 <tr>
@@ -44,23 +44,28 @@
                                                     <th scope="col">Name</th>
                                                     <th scope="col">Price</th>
                                                     <th scope="col">Factory</th>
+                                                    <th scope="col">Image</th>
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <c:forEach var="user" items="${users}">
+                                                <c:forEach var="product" items="${products}">
                                                     <tr>
-                                                        <th>${user.id}</th>
-                                                        <td>${user.email}</td>
-                                                        <td>${user.fullName}</td>
-                                                        <td>${user.role.name}</td>
+                                                        <th>${product.id}</th>
+                                                        <td>${product.name}</td>
+                                                        <td>${product.price}</td>
+                                                        <td>
+                                                            <img src="/images/product/${product.image}" alt=""
+                                                                style="width: 100px; height: 100px; object-fit: cover; border-radius:2px ; ">
+                                                        </td>
+                                                        <td>${product.factory}</td>
 
                                                         <td>
-                                                            <a href="/admin/user/${user.id}"
+                                                            <a href="/admin/product/${product.id}"
                                                                 class="btn btn-success">View</a>
-                                                            <a href="/admin/user/update/${user.id}"
+                                                            <a href="/admin/product/update/${product.id}"
                                                                 class="btn btn-warning">Update</a>
-                                                            <a href="/admin/user/delete/${user.id}"
+                                                            <a href="/admin/product/delete/${product.id}"
                                                                 class="btn btn-danger">Delete</a>
                                                         </td>
                                                     </tr>

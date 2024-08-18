@@ -35,13 +35,14 @@
                                         <a href="/admin/user/create" class="btn btn-primary">Create User</a>
                                     </div>
 
-                                    <table class="table table-bordered table-hover mt-5" style="align-items: center;">
+                                    <table class="table table-bordered table-hover mt-5 text-center"
+                                        style="align-items: center;">
                                         <thead>
                                             <tr>
                                                 <th scope="col">ID</th>
-                                                <th scope="col">Email</th>
                                                 <th scope="col">FullName</th>
                                                 <th scope="col">Role</th>
+                                                <th scope="col">Avatar</th>
                                                 <th scope="col">Action</th>
                                             </tr>
                                         </thead>
@@ -49,10 +50,12 @@
                                             <c:forEach var="user" items="${users}">
                                                 <tr>
                                                     <th>${user.id}</th>
-                                                    <td>${user.email}</td>
                                                     <td>${user.fullName}</td>
                                                     <td>${user.role.name}</td>
-
+                                                    <td>
+                                                        <img src="/images/avatar/${user.avatar}" alt=""
+                                                            style="width: 100px; height: 100px; object-fit: cover; ">
+                                                    </td>
                                                     <td>
                                                         <a href="/admin/user/${user.id}"
                                                             class="btn btn-success">View</a>
