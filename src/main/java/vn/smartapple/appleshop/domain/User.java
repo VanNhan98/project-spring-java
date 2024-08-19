@@ -30,15 +30,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     @NotNull
-    @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+    @Email(message = "Invalid email", regexp = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     String email;
 
     @NotNull
-    @Size(min = 2, message = "Password toi thieu 2 ki tu")
+    @Size(min = 2, message = "Password 3 least characters")
     String password;
 
     @NotNull
-    @Size(min = 3, message = "FullName toi thieu 3 ki tu")
+    @Size(min = 3, message = "FullName 3 least characters")
     String fullName;
     String phone;
     String address;

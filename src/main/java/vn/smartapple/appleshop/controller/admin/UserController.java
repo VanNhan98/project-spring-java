@@ -57,10 +57,6 @@ public class UserController {
     public String createUserPage(Model model, @RequestParam("nameFile") MultipartFile file,
             @ModelAttribute("newUser") @Valid User user, BindingResult bindingResult) {
         // validate
-        List<FieldError> errors = bindingResult.getFieldErrors();
-        for (FieldError error : errors) {
-            System.out.println(error.getField() + " - " + error.getDefaultMessage());
-        }
 
         if (bindingResult.hasErrors()) {
             return "admin/user/create";
